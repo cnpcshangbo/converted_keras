@@ -3,12 +3,18 @@ from flask import Flask, request, jsonify
 from keras.models import load_model
 from PIL import Image, ImageOps
 import numpy as np
+import os
+print(f"Current working directory: {os.getcwd()}")
+# Print files in the current directory
+print("Files in current directory:")
+for filename in os.listdir("."):
+    print(filename)
 
 app = Flask(__name__)
 
 # Load your Keras model and labels
-model = load_model("../keras_Model.h5", compile=False)
-class_names = open("../labels.txt", "r").readlines()
+model = load_model("/app/keras_model.h5", compile=False)
+class_names = open("/app/labels.txt", "r").readlines()
 
 @app.route('/classify', methods=['POST'])
 def classify_image():
@@ -43,4 +49,4 @@ def classify_image():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    app.run(host='0.0.0.0', port=8000, debug=True)

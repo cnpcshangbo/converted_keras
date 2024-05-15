@@ -1,0 +1,12 @@
+services:
+  web:
+    build: .       # Build the image from the current directory (Dockerfile)
+    command: conda run -n myenv gunicorn -c gunicorn_config.py wsgi:app  # Command to run in the container
+    ports:
+      - "8000:8000"  # Map port 8000 in the container to 8000 on the host
+    volumes: 
+      - .:/app        # Mount the current directory to /app in the container
+    environment:      # Set environment variables
+      - FLASK_ENV=production   # For Flask's production mode
+      - PYTHONUNBUFFERED=1     # Disable output buffering for logs
+    restart: always   # Restart the container if it stops
